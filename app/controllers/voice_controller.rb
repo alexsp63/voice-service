@@ -15,6 +15,6 @@ class VoiceController < ApplicationController
     missing_params = required_params - param_values.keys
     return if missing_params.blank?
 
-    render json: { success: false, message: "Missing value for #{missing_params.first}" }
+    render json: { success: false, message: "Missing value for #{missing_params.first}" }, status: 422
   end
 end
