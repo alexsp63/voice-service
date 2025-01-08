@@ -10,3 +10,7 @@ default: &default
 development:
   <<: *default
   database: 6th-module-project-db
+
+test:
+  <<: *default
+  database: 6th-module-project-test
