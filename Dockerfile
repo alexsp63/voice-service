@@ -1,9 +1,9 @@
 # use a specific Ruby version as a parent image
-FROM ruby:3.2.0-alpine
+FROM ruby:3.2.2-alpine
 
 # env vars
 ENV APP_PATH /my-voice-service
-ENV BUNDLE_VERSION 2.2.23
+ENV BUNDLE_VERSION 2.4.10
 ENV RAILS_PORT 3001
 
 # set the working directory
