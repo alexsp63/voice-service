@@ -8,7 +8,7 @@ This is an application for the Development and Integration exam.
 
 2. Copy `.env` and `config/database.yml` configuration files from their examples:
 
-`cp .env.sample`
+`cp .env.sample .env`
 
 `cp config/database.yml.sample config/database.yml`
 
