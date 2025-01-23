@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    user: postgres
+    restart: always
+    container_name: voice-postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready -U $${PSQL_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - voice_pg_data:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${PSQL_USER}
+      POSTGRES_PASSWORD: ${PSQL_PASSWORD}
+
+  voice-service:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_started
+    container_name: separate-voice-service
+    volumes:
+      - .:/var/voice-app
+    ports:
+      - "3001:3001"
+    environment:
+      PSQL_HOST: postgres
+      PSQL_USER: ${PSQL_USER}
+      PSQL_PASSWORD: ${PSQL_PASSWORD}
+
+volumes:
+  voice_pg_data:
