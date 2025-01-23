@@ -1,5 +1,5 @@
 # use a specific Ruby version as a parent image
-FROM ruby:2.5.8-alpine
+FROM ruby:3.2.0-alpine
 
 # env vars
 ENV APP_PATH /my-voice-service
@@ -25,7 +25,10 @@ RUN apk -U add --no-cache \
     && rm -rf /var/cache/apk/*
 # install bundler version that was specified in Gemfile.lock
 RUN gem install bundler --version $BUNDLE_VERSION \
-    && rm -rf $GEM_HOME/cache/*
+    && rm -rf $GEM_HOME/cache/* \
+    && gem install nokogiri -- --use-system-libraries \
+    && gem install tzinfo -v "~> 1.2" \
+    && gem install tzinfo-data
 # create application directory
 RUN mkdir -p $APP_PATH 
 # copy the current directory into container
@@ -35,6 +38,7 @@ ADD . $APP_PATH
 COPY Gemfile Gemfile.lock ./
 
 # install dependencies
+# RUN bundle config build.nokogiri --use-system-libraries
 RUN bundle install
 
 # create file with data from ENV
